@@ -18,7 +18,7 @@ apply plugin: 'kotlin-kapt'
 def videoAndroidSdkDepProp = "videoAppSdkDependency"
 def videoAndroidSdkDep = (project.hasProperty(videoAndroidSdkDepProp) ?
         project("${project.property(videoAndroidSdkDepProp)}") :
-        "com.twilio:video-android:5.8.0")
+        "com.twilio:video-android:5.10.0")
 def versionCodeProperty = project.property('versionCode') as Integer
 
 android {
@@ -180,7 +180,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.twilio:audioswitch:0.1.5'
     implementation project(':audioswitch')
 
     internalImplementation "com.microsoft.appcenter:appcenter-distribute:2.5.1"
