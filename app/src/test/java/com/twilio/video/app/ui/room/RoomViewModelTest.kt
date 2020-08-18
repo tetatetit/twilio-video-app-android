@@ -13,10 +13,14 @@ import com.twilio.video.app.sdk.VideoTrackViewState
 import com.twilio.video.app.ui.room.RoomEvent.ParticipantEvent.TrackSwitchOff
 import com.twilio.video.app.util.PermissionUtil
 import io.reactivex.schedulers.TestScheduler
+import io.uniflow.android.test.TestViewObserver
+import io.uniflow.android.test.createTestObserver
+import io.uniflow.androidx.flow.AndroidDataFlow
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,12 +39,13 @@ class RoomViewModelTest {
         addParticipant(participantViewState)
     }
     val permissionUtil = mock<PermissionUtil>()
+    private val testObserver: TestViewObserver
     private var viewModel = RoomViewModel(
             roomManager,
             mock(),
             permissionUtil,
             participantManager,
-            scheduler = scheduler)
+            scheduler = scheduler).apply { testObserver = createTestObserver() }
 
     @Test
     fun `The TrackSwitchOff event should create a new VideoTrackViewState for an existing ParticipantViewState`() {
@@ -52,6 +57,7 @@ class RoomViewModelTest {
         val expectedTrackViewState = VideoTrackViewState(expectedVideoTrack)
         val expectedParticipantViewState = participantViewState.copy(
                 videoTrack = expectedTrackViewState)
+//        testObserver.verifySequence(expectedParticipantViewState)
         val updatedParticipant = viewModel.viewState.value?.participantThumbnails?.find {
             it.sid == PARTICIPANT_SID
         }
